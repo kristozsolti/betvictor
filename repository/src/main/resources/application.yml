@@ -1,0 +1,26 @@
+server.port: 8082
+
+spring:
+  application:
+    name: repository-app
+
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/betvictor
+
+  kafka:
+    listener:
+      concurrency: 1
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: group.words.processed
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+#            value.default.type: com.betvictor.loremipsum.repository.dto.LoremIpsumResponse
+            trusted.packages: com.betvictor.loremipsum.*
+      # To ensure messages are consumed in the same order they were sent
+#      isolation.level: read_committed
+#      enable.auto.commit: false
