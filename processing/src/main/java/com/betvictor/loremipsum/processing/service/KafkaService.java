@@ -1,6 +1,5 @@
 package com.betvictor.loremipsum.processing.service;
 
-import com.betvictor.loremipsum.processing.dto.LoremIpsumResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -14,7 +13,7 @@ import java.util.concurrent.TimeoutException;
 @RequiredArgsConstructor
 @Service
 public class KafkaService {
-    private static final String SUCCESS_MESSAGE = "Kafka message successfully sent to topic: {}, data: {}";
+    private static final String SUCCESS_MESSAGE = "Kafka message successfully sent to topic: {}, with key: {}, data: {}";
     private static final String ERROR_MESSAGE = "Something went wrong while sending message to kafka topic: {}, data: {}";
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
@@ -23,17 +22,17 @@ public class KafkaService {
     public void sendMessageToTopicWithKeySync(final Object message, final String topic, final String key) {
         try {
             kafkaTemplate.send(topic, key, message).get(10, TimeUnit.SECONDS);
-            handleSuccess(topic, message);
+            handleSuccess(topic, message, key);
         } catch (TimeoutException | InterruptedException | ExecutionException e) {
-            handleFailure(topic, message, e.getCause());
+            handleFailure(topic, message, e);
         }
     }
 
-    private static void handleSuccess(String topic, Object message) {
-        log.info(SUCCESS_MESSAGE, topic, message);
+    private static void handleSuccess(String topic, Object message, String key) {
+        log.info(SUCCESS_MESSAGE, topic, key, message);
     }
 
-    private static void handleFailure(String topic, Object message, Throwable ex) {
+    private static void handleFailure(String topic, Object message, Exception ex) {
         log.error(ERROR_MESSAGE, topic, message, ex);
     }
 }
