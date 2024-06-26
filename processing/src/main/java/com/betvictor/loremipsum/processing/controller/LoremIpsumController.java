@@ -1,6 +1,6 @@
 package com.betvictor.loremipsum.processing.controller;
 
-import com.betvictor.loremipsum.processing.dto.LoremIpsumResponse;
+import com.betvictor.loremipsum.model.LoremIpsumResponse;
 import com.betvictor.loremipsum.processing.service.LoremIpsumService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

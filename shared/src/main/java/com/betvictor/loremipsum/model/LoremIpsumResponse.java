@@ -1,4 +1,4 @@
-package com.betvictor.loremipsum.processing.dto;
+package com.betvictor.loremipsum.model;
 
 public record LoremIpsumResponse(
         String freq_word,

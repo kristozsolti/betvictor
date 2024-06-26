@@ -15,7 +15,7 @@ import java.util.Map;
 public class KafkaTopicConfig {
     public static final String WORDS_PROCESSED_TOPIC = "words.processed";
 
-    @Value("${spring.kafka.bootstrap-servers}")
+    @Value("${spring.kafka.producer.bootstrap-servers}")
     private String bootstrapServers;
 
     @Bean

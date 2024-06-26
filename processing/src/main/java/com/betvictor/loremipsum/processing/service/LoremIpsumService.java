@@ -1,7 +1,7 @@
 package com.betvictor.loremipsum.processing.service;
 
+import com.betvictor.loremipsum.model.LoremIpsumResponse;
 import com.betvictor.loremipsum.processing.config.KafkaTopicConfig;
-import com.betvictor.loremipsum.processing.dto.LoremIpsumResponse;
 import com.betvictor.loremipsum.processing.exception.ApiCallException;
 import com.betvictor.loremipsum.processing.exception.InvalidParameterException;
 import com.betvictor.loremipsum.processing.exception.MostFrequentWordException;
