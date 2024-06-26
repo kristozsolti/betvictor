@@ -17,10 +17,10 @@ public class KafkaService {
     private static final String SUCCESS_MESSAGE = "Kafka message successfully sent to topic: {}, data: {}";
     private static final String ERROR_MESSAGE = "Something went wrong while sending message to kafka topic: {}, data: {}";
 
-    private final KafkaTemplate<String, LoremIpsumResponse> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
 
-    public void sendMessageToTopicWithKeySync(final LoremIpsumResponse message, final String topic, final String key) {
+    public void sendMessageToTopicWithKeySync(final Object message, final String topic, final String key) {
         try {
             kafkaTemplate.send(topic, key, message).get(10, TimeUnit.SECONDS);
             handleSuccess(topic, message);
@@ -29,11 +29,11 @@ public class KafkaService {
         }
     }
 
-    private static void handleSuccess(String topic, LoremIpsumResponse data) {
-        log.info(SUCCESS_MESSAGE, topic, data);
+    private static void handleSuccess(String topic, Object message) {
+        log.info(SUCCESS_MESSAGE, topic, message);
     }
 
-    private static void handleFailure(String topic, LoremIpsumResponse data, Throwable ex) {
-        log.error(ERROR_MESSAGE, topic, data, ex);
+    private static void handleFailure(String topic, Object message, Throwable ex) {
+        log.error(ERROR_MESSAGE, topic, message, ex);
     }
 }
