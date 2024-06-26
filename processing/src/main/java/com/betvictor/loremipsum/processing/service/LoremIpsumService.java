@@ -1,5 +1,6 @@
 package com.betvictor.loremipsum.processing.service;
 
+import com.betvictor.loremipsum.processing.config.KafkaTopicConfig;
 import com.betvictor.loremipsum.processing.dto.LoremIpsumResponse;
 import com.betvictor.loremipsum.processing.exception.ApiCallException;
 import com.betvictor.loremipsum.processing.exception.InvalidParameterException;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class LoremIpsumService {
+
     public static final List<String> PARAGRAPH_LENGTHS = Arrays.asList(
             "short",
             "medium",
@@ -21,9 +23,11 @@ public class LoremIpsumService {
     );
 
     private final RestClient restClient;
+    private final KafkaService kafkaService;
     private final List<Long> apiRequestProcessingTimes = new ArrayList<>();
 
-    public LoremIpsumService() {
+    public LoremIpsumService(KafkaService kafkaService) {
+        this.kafkaService = kafkaService;
         this.restClient = RestClient.builder()
                     .baseUrl("https://loripsum.net/api")
                     .build();
@@ -49,6 +53,8 @@ public class LoremIpsumService {
                 avgParagraphSize,
                 avgParagraphProcessingTime,
                 totalProcessingTime);
+
+        kafkaService.sendMessageToTopicWithKeySync(response, KafkaTopicConfig.WORDS_PROCESSED_TOPIC, mostFrequentWord);
 
         return ResponseEntity.ok(response);
     }
