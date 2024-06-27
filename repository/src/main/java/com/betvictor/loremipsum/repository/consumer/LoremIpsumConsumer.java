@@ -11,6 +11,8 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -38,7 +40,8 @@ public class LoremIpsumConsumer {
                     loremIpsumResponse.freq_word(),
                     loremIpsumResponse.avg_paragraph_size(),
                     loremIpsumResponse.avg_paragraph_processing_time(),
-                    loremIpsumResponse.total_processing_time()
+                    loremIpsumResponse.total_processing_time(),
+                    Instant.now()
             );
 
             paragraphAnalyticsRepository.save(paragraphAnalyticsDocument);
