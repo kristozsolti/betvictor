@@ -32,5 +32,13 @@ public class GlobalExceptionHandler {
                 .internalServerError()
                 .body("Too many requests. Please try again later or try to reduce the number of requested paragraphs (p).");
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleException(Exception e) {
+        log.error("Something went wrong: {}", e.getMessage(), e);
+        return ResponseEntity
+                .internalServerError()
+                .body("Something went wrong while processing your request. Please try again later.");
+    }
     
 }
