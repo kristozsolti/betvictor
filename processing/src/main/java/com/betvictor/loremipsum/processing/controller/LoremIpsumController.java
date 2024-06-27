@@ -16,9 +16,9 @@ public class LoremIpsumController {
     private final LoremIpsumService loremIpsumService;
 
     @GetMapping(path = "/text")
-    public ResponseEntity<LoremIpsumResponse> generateDummyText(@RequestParam("p") int numOfParagraphs,
-                                                                @RequestParam("l") String paragraphLength) {
-        return loremIpsumService.getDummyTextAnalytics(numOfParagraphs, paragraphLength);
+    public ResponseEntity<Object> generateTextAnalytics(@RequestParam("p") int numOfParagraphs,
+                                                        @RequestParam("l") String paragraphLength) {
+        return loremIpsumService.generateTextAnalytics(numOfParagraphs, paragraphLength);
     }
 
 }
