@@ -7,3 +7,6 @@ spring:
   kafka:
     producer:
       bootstrap-servers: localhost:9092
+
+app.config:
+  lorem-ipsum-api-url: "https://loripsum.net/api"

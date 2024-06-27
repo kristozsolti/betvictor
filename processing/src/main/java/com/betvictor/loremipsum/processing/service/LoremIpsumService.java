@@ -5,6 +5,7 @@ import com.betvictor.loremipsum.processing.config.KafkaTopicConfig;
 import com.betvictor.loremipsum.processing.exception.ApiCallException;
 import com.betvictor.loremipsum.processing.exception.InvalidParameterException;
 import com.betvictor.loremipsum.processing.exception.MostFrequentWordException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -13,8 +14,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class LoremIpsumService {
-
     public static final List<String> PARAGRAPH_LENGTHS = Arrays.asList(
             "short",
             "medium",
@@ -26,14 +27,7 @@ public class LoremIpsumService {
     private final KafkaService kafkaService;
     private final List<Long> apiRequestProcessingTimes = new ArrayList<>();
 
-    public LoremIpsumService(KafkaService kafkaService) {
-        this.kafkaService = kafkaService;
-        this.restClient = RestClient.builder()
-                    .baseUrl("https://loripsum.net/api")
-                    .build();
-    }
-
-    public ResponseEntity<LoremIpsumResponse> getDummyTextAnalytics(int numOfParagraphs, String paragraphLength) {
+    public ResponseEntity<Object> generateTextAnalytics(int numOfParagraphs, String paragraphLength) {
         throwInvalidParameterExceptionIfParamsAreInvalid(numOfParagraphs, paragraphLength);
 
         long totalProcessingTimeStart = System.currentTimeMillis();
@@ -82,13 +76,12 @@ public class LoremIpsumService {
                         .uri("/{numOfParagraphs}/{paragraphLength}", numOfParagraphs, paragraphLength)
                         .retrieve()
                         .body(String.class);
-
                 long requestEnd = System.currentTimeMillis();
 
                 assert response != null;
-
-                String cleanedParagraph = response.replaceAll("<p>", "").replaceAll("</p>", "");
-                paragraphs.add(cleanedParagraph);
+                String cleanedParagraph = response.replaceAll("<p>", "")
+                        .replaceAll("</p>", "");
+                paragraphs.addAll(List.of(cleanedParagraph.split("\n\n")));
                 apiRequestProcessingTimes.add(requestEnd - requestStart);
             } catch (Exception e) {
                 throw new ApiCallException(e.getMessage());
@@ -103,7 +96,8 @@ public class LoremIpsumService {
         paragraphs.forEach(paragraph -> {
             String[] words = paragraph.split("\\W+"); // Split by word
             for (String word : words) {
-                wordFrequencies.put(word, wordFrequencies.getOrDefault(word, 0) + 1);
+                String lowerCaseWord = word.toLowerCase();
+                wordFrequencies.put(lowerCaseWord, wordFrequencies.getOrDefault(lowerCaseWord, 0) + 1);
             }
         });
 
