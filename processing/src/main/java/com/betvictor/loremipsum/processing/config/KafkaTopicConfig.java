@@ -11,10 +11,10 @@ import org.springframework.kafka.core.KafkaAdmin;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.betvictor.loremipsum.constants.KafkaTopics.WORDS_PROCESSED_TOPIC;
+
 @Configuration
 public class KafkaTopicConfig {
-    public static final String WORDS_PROCESSED_TOPIC = "words.processed";
-
     @Value("${spring.kafka.producer.bootstrap-servers}")
     private String bootstrapServers;
 

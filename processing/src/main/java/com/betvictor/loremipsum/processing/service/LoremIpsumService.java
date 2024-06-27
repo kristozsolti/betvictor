@@ -13,6 +13,8 @@ import org.springframework.web.client.RestClient;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.betvictor.loremipsum.constants.KafkaTopics.WORDS_PROCESSED_TOPIC;
+
 @Service
 @RequiredArgsConstructor
 public class LoremIpsumService {
@@ -48,7 +50,7 @@ public class LoremIpsumService {
                 avgParagraphProcessingTime,
                 totalProcessingTime);
 
-        kafkaService.sendMessageToTopicWithKeySync(response, KafkaTopicConfig.WORDS_PROCESSED_TOPIC, mostFrequentWord);
+        kafkaService.sendMessageToTopicWithKeySync(response, WORDS_PROCESSED_TOPIC, mostFrequentWord);
 
         return ResponseEntity.ok(response);
     }

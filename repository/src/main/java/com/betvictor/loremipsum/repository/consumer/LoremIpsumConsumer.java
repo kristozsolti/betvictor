@@ -13,11 +13,12 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 
+import static com.betvictor.loremipsum.constants.KafkaTopics.WORDS_PROCESSED_TOPIC;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class LoremIpsumConsumer {
-    public static final String WORDS_PROCESSED_TOPIC = "words.processed";
     private final ParagraphAnalyticsRepository paragraphAnalyticsRepository;
 
     @KafkaListener(id = "processedWordsListener",
@@ -35,15 +36,15 @@ public class LoremIpsumConsumer {
                 key,
                 offset);
 
-        try {
-            ParagraphAnalyticsDocument paragraphAnalyticsDocument = new ParagraphAnalyticsDocument(
-                    loremIpsumResponse.freq_word(),
-                    loremIpsumResponse.avg_paragraph_size(),
-                    loremIpsumResponse.avg_paragraph_processing_time(),
-                    loremIpsumResponse.total_processing_time(),
-                    Instant.now()
-            );
+        ParagraphAnalyticsDocument paragraphAnalyticsDocument = new ParagraphAnalyticsDocument(
+                loremIpsumResponse.freq_word(),
+                loremIpsumResponse.avg_paragraph_size(),
+                loremIpsumResponse.avg_paragraph_processing_time(),
+                loremIpsumResponse.total_processing_time(),
+                Instant.now()
+        );
 
+        try {
             paragraphAnalyticsRepository.save(paragraphAnalyticsDocument);
         } catch (Exception e) {
             log.error("Something went wrong while persisting kafka message: {}", loremIpsumResponse, e);

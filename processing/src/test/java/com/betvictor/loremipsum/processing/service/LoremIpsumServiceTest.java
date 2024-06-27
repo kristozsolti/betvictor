@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClient;
 
+import static com.betvictor.loremipsum.constants.KafkaTopics.WORDS_PROCESSED_TOPIC;
 import static com.betvictor.loremipsum.processing.service.LoremIpsumService.PARAGRAPH_LENGTHS;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -90,7 +91,7 @@ class LoremIpsumServiceTest {
 
         assertEquals(expectedMostFrequentWord, requestBody.freq_word());
         assertEquals(expectedAvgParagraphSize, requestBody.avg_paragraph_size());
-        verify(kafkaService).sendMessageToTopicWithKeySync(requestBody, KafkaTopicConfig.WORDS_PROCESSED_TOPIC, expectedMostFrequentWord);
+        verify(kafkaService).sendMessageToTopicWithKeySync(requestBody, WORDS_PROCESSED_TOPIC, expectedMostFrequentWord);
     }
 
 }
