@@ -34,9 +34,9 @@ The processing application is a Java server that exposes a REST API with the fol
   ```json
   {
     "freq_word": "<most_frequent_word>",
-    "avg_paragraph_size": <avg_paragraph_size>,
-    "avg_paragraph_processing_time": <avg_paragraph_processing_time>,
-    "total_processing_time": <total_processing_time>
+    "avg_paragraph_size": "<avg_paragraph_size>",
+    "avg_paragraph_processing_time": "<avg_paragraph_processing_time>",
+    "total_processing_time": "<total_processing_time>"
   }
 
 where:
