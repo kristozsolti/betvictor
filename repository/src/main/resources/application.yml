@@ -19,8 +19,4 @@ spring:
       properties:
         spring:
           json:
-#            value.default.type: com.betvictor.loremipsum.repository.dto.LoremIpsumResponse
             trusted.packages: com.betvictor.loremipsum.*
-      # To ensure messages are consumed in the same order they were sent
-#      isolation.level: read_committed
-#      enable.auto.commit: false

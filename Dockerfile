@@ -1,8 +1,8 @@
-# Use the Maven base image (includes Maven)
 FROM maven:3.9.8-amazoncorretto-21 AS builder
 WORKDIR /app
 COPY . .
 RUN cd shared && mvn clean install
+# skipTests would not be advised in production
 RUN cd /app/processing && mvn package -D skipTests
 RUN cd /app/repository && mvn package -D skipTests
 
