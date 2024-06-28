@@ -10,11 +10,12 @@ docker-compose up
 ```
 This command should bootstrap the infrastructure required for the services to run properly.
 
-### Open API was configured in both projects to ease the testing of the api.
-#### After the docker-compose command ran successfully, open the browser and navigate to
-
+### Open API was configured in both projects to ease the testing of the apis and kafka-ui to ease the demonstration of kafka.
+### After the docker-compose command ran successfully, you can navigate to:
+- http://localhost:8080/ to access kafka-ui
 - http://localhost:8081/swagger-ui.html to access the processing application swagger interface
 - http://localhost:8082/swagger-ui.html to access the repository application swagger interface
+
 
 ---
 
