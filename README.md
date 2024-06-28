@@ -1,5 +1,24 @@
-# Lorem Ipsum API
+# Requirements:
+- Docker
 
+# How to run the projects:
+### A docker compose file was created to ease the running process.
+
+Open a terminal window and change directory to the betvictor directory and run the following command:
+```
+docker-compose up
+```
+This command should bootstrap the infrastructure required for the services to run properly.
+
+### Open API was configured in both projects to ease the testing of the api.
+#### After the docker-compose command ran successfully, open the browser and navigate to
+
+- http://localhost:8081/swagger-ui.html to access the processing application swagger interface
+- http://localhost:8082/swagger-ui.html to access the repository application swagger interface
+
+---
+
+# Task description: Lorem Ipsum API
 The **Lorem Ipsum API** provided by loripsum.net offers a RESTful interface for generating dummy text data. In this project, we'll create a small and simple system consisting of two applications:
 
 ## 1. Processing Application
